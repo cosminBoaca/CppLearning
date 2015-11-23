@@ -9,26 +9,52 @@
 #include <utility>
 using namespace std;
 
+#ifdef __C14__
+
 namespace detail {
-    template<class Fn, class Tuple, class ReturnType, size_t... I>
-    inline ReturnType
+    template<class Fn, class Tuple, size_t... I>
+    inline decltype(auto)
     apply_impl(Fn fun, Tuple&& argsTuple, const index_sequence<I...>&)
     {
         return fun(get<I>(argsTuple)...);
     }
 
     template<class Fn, class...Args>
+    inline decltype(auto) apply(Fn f, tuple<Args...>&& argsTuple) {
+        const int ArgsLength = sizeof...(Args);
+        return apply_impl(f, std::move(argsTuple),
+                make_index_sequence<ArgsLength>());
+    }
+};
+
+#else
+
+#include "sequence.hpp"
+
+namespace detail {
+
+template<class Fn, class Tuple, class ReturnType, size_t... I>
+    inline ReturnType
+    apply_impl(Fn fun, Tuple&& argsTuple, const index_sequence<I...>&)
+    {
+        return fun(get<I>(argsTuple)...);
+    }
+
+template<class Fn, class...Args>
     inline auto apply(Fn f, tuple<Args...>&& argsTuple) ->
     typename result_of<Fn(Args...)>::type {
         using ReturnType = typename result_of<Fn(Args...)>::type;
         const size_t ArgsLength = sizeof...(Args);
         return apply_impl<
-                    Fn,
-                    tuple<Args...>,
-                    ReturnType
+            Fn,
+            tuple<Args...>,
+            ReturnType
                 >(f, std::move(argsTuple), make_index_sequence<ArgsLength>());
-    }
-};
+
+    };
+}
+
+#endif
 
 void printSum(int x, int y, int z) {
     cout << (x + y + z) << endl;

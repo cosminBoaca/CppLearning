@@ -1,5 +1,5 @@
 apply14: apply.cpp
-	g++ apply.cpp -std=c++14 -o apply14
+	g++ apply.cpp -std=c++14 -o apply14 -D__C14__
 
 apply11: apply.cpp
 	g++ apply.cpp -std=c++11 -o apply11
