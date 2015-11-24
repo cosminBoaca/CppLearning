@@ -1,3 +1,5 @@
+all: apply14 apply11 memo11 memo14
+
 apply14: apply.cpp
 	g++ apply.cpp -std=c++14 -o apply14 -D__C14__
 
