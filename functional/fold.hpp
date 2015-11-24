@@ -1,6 +1,5 @@
 #include <functional>
 template<
-
     template<class,class> class BinaryOp,
     class Acc,
     class ...List
