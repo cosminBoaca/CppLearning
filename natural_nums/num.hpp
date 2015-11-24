@@ -61,5 +61,6 @@ using _28 = make_num<28>::type;
 using _29 = make_num<29>::type;
 using _30 = make_num<30>::type;
 
+static_assert(std::is_same<_0, zero>::value, "");
 static_assert(std::is_same<_3, succ<succ<succ<zero>>>>::value, "");
 static_assert(get_num<succ<succ<succ<zero>>>>::value == 3, "");
