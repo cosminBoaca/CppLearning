@@ -6,10 +6,4 @@ struct plus {
     typedef typename make_num<value>::type type;
 };
 
-static_assert(
-    std::is_same<
-        plus<make_num<3>::type, make_num<5>::type>::type,
-        make_num<8>::type
-    >::value,
-    ""
-);
+static_assert(std::is_same<plus<_3, _5>::type, _8>::value, "");
